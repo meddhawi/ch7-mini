@@ -5,8 +5,8 @@ const reviews = [...Array(10)].map( (review) => (
     {
         // product_id: Math.floor(Math.random() * 10) + 1,
         product_id: faker.datatype.number({
-          'min': 50,
-          'max': 60
+          'min': 1,
+          'max': 10
         }),
         rating: Math.floor(Math.random() * 5) + 1,
         review: faker.lorem.paragraph(),
