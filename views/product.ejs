@@ -10,9 +10,9 @@
           <div class="card-body">
             <div class="display-6 fs-3 fw-bold">
               <p class="fs-5">Stock Available: <%= products.stock %></p>
-              <a href="#" class="btn btn-success">
+              <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#moreInfo<%= products.id %>">
                 <h2><i class="bi bi-cart-plus"></i></h2>
-              </a>
+              </button>
               <span>Buy Now!</span>
             </div>
           </div>
@@ -27,6 +27,24 @@
             <p class="list-group-item">
                 <%= products.description %>
             </p>
+          </div>
+        </div>
+      </div>
+      <!-- Modal -->
+      <div class="modal fade" id="moreInfo<%= products.id %>" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel"><%= products.title %></h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <p>Stocks: <%= products.stock %></p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <a href="/products/<%= products.id %>" class="btn btn-success">Go to Product page</a>
+            </div>
           </div>
         </div>
       </div>

@@ -3,6 +3,7 @@ Products: hasmany order + hasmany reviews
 Orders: belongsto product
 Reviews: hasone order(?) + belongs to product
 
+npx sequelize db:seed --seed 20211203135900-demo-products
 npx sequelize db:seed --seed 20211206064845-demo-reviews
 npx sequelize migration:generate --name rename_city_to_quantity 
 
@@ -12,4 +13,19 @@ npx sequelize model:generate --name Product --attributes title:string,descriptio
 npx sequelize model:generate --name Orders --attributes product_id:integer,user_id:integer,city:integer,price:integer,transaction_status:enum:'{WAITING,CANCELLED,DONE}'
 
 npx sequelize model:generate --name Review --attributes product_id:integer,rating:integer,review:text
+
+Create: place order → dari modal lari ke make order page. 
+
+Read: udah ada di product.ejs✔
+
+Update: siapin add product form
+
+delete: siapin delete product form
+
+ato gk bisa dibikin satu form dlm bntk query(admin style)
+
+Show: title, description, stock, prize
+
+
+To Do: remove database, add foreign key
 

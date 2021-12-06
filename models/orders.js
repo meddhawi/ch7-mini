@@ -11,12 +11,14 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      Orders.belongsTo(models.Product, { foreignKey: 'product_id' });
+
     }
   };
   Orders.init({
     product_id: DataTypes.INTEGER,
     user_id: DataTypes.INTEGER,
-    city: DataTypes.INTEGER,
+    qty: DataTypes.INTEGER,
     price: DataTypes.INTEGER,
     transaction_status: DataTypes.ENUM('WAITING', 'CANCELLED', 'DONE')
   }, {
