@@ -8,6 +8,9 @@
             <th scope="col" width="40%">Description</th>
             <th scope="col">Stock</th>
             <th scope="col">Price</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+
         </tr>
         </thead>
         <tbody>
@@ -19,6 +22,8 @@
                     <td><%= product.price %></td>
                     <td>
                         <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#update_status<%= product.id %>">Change</button>
+                    </td>
+                    <td>
                         <form action="/admin/products/delete" method="post">
                             <input type="hidden" name="productID" value="<%= product.id %>">
                             <input type="submit" name="deleteProduct" id="" class="btn btn-danger btn-sm" value="Delete">

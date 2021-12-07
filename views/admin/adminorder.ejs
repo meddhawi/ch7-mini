@@ -29,12 +29,13 @@
                       <th scope="col">Quantity</th>
                       <th scope="col">Total Cost</th>
                       <th scope="col">Transaction Status</th>
-                      <th scope="col">Update Status</th>
+                      <th scope="col"></th>
+                      <th scope="col"></th>
                   </tr>
                   </thead>
                   <tbody>
                       <% orderWaiting.forEach(function(orders) { %>
-                      <tr class="text-end">
+                      <tr>
                         <td><%= orders.product_id %></td>
                         <td><%= orders.user_id %></td>
                         <td><%= orders.qty %></td>
@@ -44,8 +45,13 @@
                             <form action="/admin/orders" method="post">
                                 <input type="hidden" name="orderID" value="<%= orders.id %>">
                                 <input type="submit" name="status_done" id="" class="btn btn-success" value="DONE">
-                                <input type="submit" name="status_cancel" id="" class="btn btn-danger" value="CANCELLED">
-                              </form>
+                                
+                            </form>
+                        </td>
+                        <td>
+                          <form action="/admin/orders" method="post">
+                            <input type="submit" name="status_cancel" id="" class="btn btn-danger" value="CANCELLED">
+                          </form>
                         </td>
                       </tr>
                       <% }); %>
@@ -85,7 +91,7 @@
                 </thead>
                 <tbody>
                   <% orderDone.forEach(function(orders) { %>
-                    <tr class="text-end">
+                    <tr>
                       <td><%= orders.product_id %></td>
                       <td><%= orders.user_id %></td>
                       <td><%= orders.qty %></td>
@@ -131,7 +137,7 @@
                   </thead>
                   <tbody>
                     <% orderCancelled.forEach(function(orders) { %>
-                      <tr class="text-end">
+                      <tr>
                         <td><%= orders.product_id %></td>
                         <td><%= orders.user_id %></td>
                         <td><%= orders.qty %></td>
