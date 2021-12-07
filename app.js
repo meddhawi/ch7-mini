@@ -20,7 +20,8 @@ app.use(express.static('public'));
 var path = require ('path');
 app.use(express.static(path.join(__dirname + '../public')));
 
-const { Product, Orders, Review } = require('./models')
+const { Product, Orders, Review } = require('./models');
+const { where } = require('sequelize');
 
 //Test model
 app.get('/', async (req, res, next) => {
@@ -33,6 +34,8 @@ app.get('/', async (req, res, next) => {
         console.log(error)
     }
 }); 
+
+app.get('/admin/products')
 
 app.get('/admin/orders', async(req, res) => {
     try{
@@ -61,6 +64,46 @@ app.get('/admin/orders', async(req, res) => {
         console.log(error)
     }
 })
+
+app.post('/admin/orders', async(req, res)=>{
+    try{
+        const {status_done, status_cancel, historyDelete , orderID} = req.body;
+        if(status_done){
+            await Orders.update({
+                transaction_status: status_done
+            },{
+                where:{
+                    id: orderID
+                }
+            })
+    
+        }
+        if(status_cancel){
+            await Orders.update({
+                transaction_status: status_cancel
+            },{
+                where:{
+                    id: orderID
+                }
+            })
+        }
+        if(historyDelete){
+            await Orders.destroy({
+                where:{
+                    id: orderID
+                }
+            })
+        }
+
+        res.redirect('/admin/orders');
+
+    }catch(error){
+        console.log(error)
+    }
+})
+
+
+
 app.get('/products/:id', async (req, res) => {
     try{
         const product = await Product.findByPk(req.params.id)

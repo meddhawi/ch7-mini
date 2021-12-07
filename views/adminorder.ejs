@@ -1,17 +1,67 @@
 <%- include('./partial/header'); -%>
 <%- include('./partial/navbar'); -%>
 <div class="container">
-    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#showDone">
-      <h6>See all Done Order</h6>
+    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#showWait">
+      <h6>See all Waiting Orders</h6>
     </button>
 
-    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#showWait">
-      <h6>See all Waiting Order</h6>
+    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#showDone">
+      <h6>See all Done Orders</h6>
     </button>
 
     <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#showCancel">
-      <h6>See all Cancelled Order</h6>
+      <h6>See all Cancelled Orders</h6>
     </button>
+
+    <div class="modal fade" id="showWait" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable modal-xl">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Status: WAITING</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                  <thead>
+                  <tr>
+                      <th scope="col">Product ID</th>
+                      <th scope="col">User ID</th>
+                      <th scope="col">Quantity</th>
+                      <th scope="col">Total Cost</th>
+                      <th scope="col">Transaction Status</th>
+                      <th scope="col">Update Status</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                      <% orderWaiting.forEach(function(orders) { %>
+                      <tr class="text-end">
+                        <td><%= orders.product_id %></td>
+                        <td><%= orders.user_id %></td>
+                        <td><%= orders.qty %></td>
+                        <td><%= orders.price %></td>
+                        <td><%= orders.transaction_status %></td>
+                        <td>
+                            <form action="/admin/orders" method="post">
+                                <input type="hidden" name="orderID" value="<%= orders.id %>">
+                                <input type="submit" name="status_done" id="" class="btn btn-success" value="DONE">
+                                <input type="submit" name="status_cancel" id="" class="btn btn-danger" value="CANCELLED">
+                              </form>
+                        </td>
+                      </tr>
+                      <% }); %>
+                    </tbody>
+                    
+              </table>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      
 
     <!-- Modal -->
     <div class="modal fade" id="showDone" tabindex="-1" aria-hidden="true">
@@ -30,6 +80,7 @@
                     <th scope="col">Quantity</th>
                     <th scope="col">Total Cost</th>
                     <th scope="col">Transaction Status</th>
+                    <th scope="col">Delete History</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -41,9 +92,11 @@
                       <td><%= orders.price %></td>
                       <td><%= orders.transaction_status %></td>
                       <td>
-                        <a class="btn btn-primary" href="/orders/edit/<%= orders.id %>">Ubah</a>
-                        <a class="btn btn-danger" href="/orders/delete/<%= orders.id %>">Hapus</a>
-                      </td>
+                        <form action="/admin/orders" method="post">
+                            <input type="hidden" name="orderID" value="<%= orders.id %>">
+                            <input type="submit" name="historyDelete" id="" class="btn btn-danger" value="DELETE">
+                        </form>
+                    </td>
                     </tr>            
                     <% }); %>
                 </tbody>
@@ -51,60 +104,16 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <!-- <button type="submit" class="btn btn-success">Place Order!</button> -->
           </div>
         </div>
       </div>
     </div>
 
-    <div class="modal fade" id="showWait" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-scrollable modal-xl">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Status: DONE</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-              <table class="table">
-                  <thead>
-                  <tr>
-                      <th scope="col">Product ID</th>
-                      <th scope="col">User ID</th>
-                      <th scope="col">Quantity</th>
-                      <th scope="col">Total Cost</th>
-                      <th scope="col">Transaction Status</th>
-                  </tr>
-                  </thead>
-                  <tbody>
-                    <% orderWaiting.forEach(function(orders) { %>
-                      <tr class="text-end">
-                        <td><%= orders.product_id %></td>
-                        <td><%= orders.user_id %></td>
-                        <td><%= orders.qty %></td>
-                        <td><%= orders.price %></td>
-                        <td><%= orders.transaction_status %></td>
-                        <td>
-                          <a class="btn btn-primary" href="/orders/edit/<%= orders.id %>">Ubah</a>
-                          <a class="btn btn-danger" href="/orders/delete/<%= orders.id %>">Hapus</a>
-                        </td>
-                      </tr>            
-                      <% }); %>
-                  </tbody>
-              </table>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <!-- <button type="submit" class="btn btn-success">Place Order!</button> -->
-            </div>
-          </div>
-        </div>
-      </div>
-
       <div class="modal fade" id="showCancel" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-scrollable modal-xl">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Status: DONE</h5>
+              <h5 class="modal-title" id="exampleModalLabel">Status: CANCELLED</h5>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -116,6 +125,8 @@
                       <th scope="col">Quantity</th>
                       <th scope="col">Total Cost</th>
                       <th scope="col">Transaction Status</th>
+                      <th scope="col">Delete History</th>
+
                   </tr>
                   </thead>
                   <tbody>
@@ -127,8 +138,10 @@
                         <td><%= orders.price %></td>
                         <td><%= orders.transaction_status %></td>
                         <td>
-                          <a class="btn btn-primary" href="/orders/edit/<%= orders.id %>">Ubah</a>
-                          <a class="btn btn-danger" href="/orders/delete/<%= orders.id %>">Hapus</a>
+                            <form action="/admin/orders" method="post">
+                                <input type="hidden" name="orderID" value="<%= orders.id %>">
+                                <input type="submit" name="historyDelete" id="" class="btn btn-danger" value="DELETE">
+                            </form>
                         </td>
                       </tr>            
                       <% }); %>
@@ -137,7 +150,6 @@
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <!-- <button type="submit" class="btn btn-success">Place Order!</button> -->
             </div>
           </div>
         </div>
