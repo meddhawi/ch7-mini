@@ -34,6 +34,33 @@ app.get('/', async (req, res, next) => {
     }
 }); 
 
+app.get('/admin/orders', async(req, res) => {
+    try{
+        const order = await Orders.findAll()
+        const orderDone = await Orders.findAll({
+            where:{
+                transaction_status: 'DONE'
+            }
+        })
+        const orderCancelled = await Orders.findAll({
+            where:{
+                transaction_status: 'CANCELLED'
+            }
+        })
+        const orderWaiting = await Orders.findAll({
+            where:{
+                transaction_status: 'WAITING'
+            }
+        })
+
+        res.render('adminorder', {
+            order, orderDone, orderCancelled, orderWaiting
+        })
+
+    } catch(error) {
+        console.log(error)
+    }
+})
 app.get('/products/:id', async (req, res) => {
     try{
         const product = await Product.findByPk(req.params.id)

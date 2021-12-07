@@ -18,14 +18,15 @@ Create: place order → dari modal lari ke make order page. ✔
 
 Read: udah ada di product.ejs✔
 
-Update: siapin add product form
+Update: siapin add product form + order request update status
 
-delete: siapin delete product form
+delete: siapin delete product form + 
 
 ato gk bisa dibikin satu form dlm bntk query(admin style)
 
 Show: title, description, stock, prize
 
 
-To Do: 
+To Do: Create table: show order(product_id, user_id, qty, total price, transaction_status)
+
 
