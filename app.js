@@ -27,7 +27,7 @@ const { where } = require('sequelize');
 app.get('/', async (req, res, next) => {
     try {
         let products = await Product.findAll();
-        res.render('homepage', {
+        res.render('product/homepage', {
             productList: products
         });
     } catch(error) {
@@ -113,7 +113,7 @@ app.get('/products/:id', async (req, res) => {
             }
         })
         // let reviews = await Review.findAll();
-        res.render('product', {
+        res.render('product/product', {
             products: product,
             reviews: review
         })
