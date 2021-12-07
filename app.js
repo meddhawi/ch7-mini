@@ -35,7 +35,41 @@ app.get('/', async (req, res, next) => {
     }
 }); 
 
-app.get('/admin/products')
+app.get('/products/:id', async (req, res) => {
+    try{
+        const product = await Product.findByPk(req.params.id)
+        const review = await Review.findAll({
+            where: {
+                product_id: req.params.id
+            }
+        })
+        // let reviews = await Review.findAll();
+        res.render('product/product', {
+            products: product,
+            reviews: review
+        })
+    }catch(error){
+        console.log(error)
+    }
+});
+
+app.post('/buy/:id', async(req, res) =>{
+    try{
+        const product = await Product.findByPk(req.params.id)
+        const { quantity } = req.body;
+        await Orders.create({
+            product_id: req.params.id,
+            user_id: 1,
+            qty: quantity,
+            price: product.price * quantity,
+            transaction_status: 'WAITING'            
+        }).then(res.redirect('/products/' + req.params.id));
+    }catch(error){
+        console.log(error)
+    }
+})
+
+
 
 app.get('/admin/orders', async(req, res) => {
     try{
@@ -56,7 +90,7 @@ app.get('/admin/orders', async(req, res) => {
             }
         })
 
-        res.render('adminorder', {
+        res.render('admin/adminorder', {
             order, orderDone, orderCancelled, orderWaiting
         })
 
@@ -102,43 +136,55 @@ app.post('/admin/orders', async(req, res)=>{
     }
 })
 
-
-
-app.get('/products/:id', async (req, res) => {
+app.get('/admin/products', async(req, res) => {
     try{
-        const product = await Product.findByPk(req.params.id)
-        const review = await Review.findAll({
-            where: {
-                product_id: req.params.id
-            }
+        let products = await Product.findAll();
+        res.render('admin/adminproducts',{
+            products: products
         })
-        // let reviews = await Review.findAll();
-        res.render('product/product', {
-            products: product,
-            reviews: review
-        })
-    }catch(error){
-        console.log(error)
-    }
-});
 
-app.post('/buy/:id', async(req, res) =>{
-    try{
-        const product = await Product.findByPk(req.params.id)
-        const { quantity } = req.body;
-        await Orders.create({
-            product_id: req.params.id,
-            user_id: 1,
-            qty: quantity,
-            price: product.price * quantity,
-            transaction_status: 'WAITING'            
-        }).then(res.redirect('/products/' + req.params.id));
-        console.log(quantity)
-    }catch(error){
+    }catch(error) {
         console.log(error)
     }
 })
 
+app.post('/admin/products', async(req, res) => {
+    try{
+        const { productID, title, description, stock, price} = req.body;
+        console.log("ID:" + productID)
+        await Product.update({
+            title,
+            description,
+            stock,
+            price
+        },{
+            where:{
+                id: productID
+            }
+        })
+        
+        res.redirect('/admin/products')
+
+    }catch(error) {
+        console.log(error)
+    }
+})
+
+app.post('/admin/products/delete', async(req, res) =>{
+    try{
+        const { productID, deleteProduct } = req.body;
+        if(deleteProduct){
+            await Product.destroy({
+                where: {
+                    id: productID
+                }
+            })
+        }
+        res.redirect('/admin/products')
+    }catch(error) {
+        console.log(error)
+    }
+})
 
 
 app.listen(port, () => {
