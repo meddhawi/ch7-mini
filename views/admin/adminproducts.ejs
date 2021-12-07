@@ -1,6 +1,9 @@
 <%- include('../partial/header'); -%>
 <%- include('../partial/navbar'); -%>
 <div class="container-fluid">
+    <button type="button" class="btn btn-sm" data-bs-toggle="modal" data-bs-target="#createProducts">
+        <h1><i class="bi bi-plus-square-fill"></i> Add Products</h1>
+    </button>
     <table class="table">
         <thead>
         <tr>
@@ -43,22 +46,22 @@
                             <div class="form-group mt-3">
                                 <input type="hidden" name="productID" value="<%= product.id %>">
                                 <label for="title">Title</label>
-                                <input type="text" class="form-control" name="title"value="<%= product.title %>"
+                                <input type="text" class="form-control" name="title"value="<%= product.title %>">
                             </div>
 
                             <div class="form-group mt-3">
                                 <label for="title">Description</label>
-                                <input type="text" class="form-control" rows="3" name="description" value="<%= product.description %>"
+                                <input type="text" class="form-control" rows="3" name="description" value="<%= product.description %>">
                             </div>
 
                             <div class="form-group mt-3">
                                 <label for="title">Stock</label>
-                                <input type="text" class="form-control" name="stock" value="<%= product.stock %>"
+                                <input type="text" class="form-control" name="stock" value="<%= product.stock %>">
                             </div>
 
                             <div class="form-group mt-3">
                                 <label for="title">Price</label>
-                                <input type="text" class="form-control" name="price"value="<%= product.price %>"
+                                <input type="text" class="form-control" name="price"value="<%= product.price %>">
                             </div>
                             <br>
                             <div class="modal-footer">
@@ -75,6 +78,48 @@
             <% }); %>
         </tbody>
     </table>
-    
+
+
+    <div class="modal fade" id="createProducts" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Create Product</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+              <form action="/admin/products/create" method="post">
+                <div class="form-group mt-3">
+                    <label for="title">Title</label>
+                    <input type="text" class="form-control" name="title"value="">
+                </div>
+
+                <div class="form-group mt-3">
+                    <label for="title">Description</label>
+                    <input type="text" class="form-control" rows="3" name="description" value="">
+                </div>
+
+                <div class="form-group mt-3">
+                    <label for="title">Stock</label>
+                    <input type="text" class="form-control" name="stock" value="">
+                </div>
+
+                <div class="form-group mt-3">
+                    <label for="title">Price</label>
+                    <input type="text" class="form-control" name="price"value="">
+                </div>
+                <br>
+                <div class="modal-footer">
+                    <input type="submit" name="" id="" class="btn btn-success" value="Done">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+              </form>
+
+            </div>
+            
+          </div>
+        </div>
+      </div>
 </div>
 <%- include('../partial/footer'); -%>

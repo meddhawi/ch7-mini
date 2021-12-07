@@ -186,6 +186,21 @@ app.post('/admin/products/delete', async(req, res) =>{
     }
 })
 
+app.post('/admin/products/create', async(req, res) =>{
+    try{
+        const { title, description, stock, price } = req.body;
+        await Product.create({
+            title,
+            description,
+            stock,
+            price
+        })
+        res.redirect('/admin/products')
+    }catch(error) {
+        console.log(error)
+    }
+})
+
 
 app.listen(port, () => {
     console.log(`Go to http://localhost:${port}`)
