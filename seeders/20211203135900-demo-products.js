@@ -7,7 +7,7 @@ const products = [...Array(10)].map( (product) => (
     title: faker.commerce.productName(),
     description: faker.commerce.productDescription(),
     stock: Math.floor(Math.random() * 100),
-    price: faker.commerce.price(),
+    price: parseInt(faker.finance.amount(1, 100, 0)),
     createdAt: new Date(),
     updatedAt: new Date(),
   }

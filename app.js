@@ -20,7 +20,7 @@ app.use(express.static('public'));
 var path = require ('path');
 app.use(express.static(path.join(__dirname + '../public')));
 
-const { Product, Order, Review } = require('./models')
+const { Product, Orders, Review } = require('./models')
 
 //Test model
 app.get('/', async (req, res, next) => {
@@ -51,6 +51,23 @@ app.get('/products/:id', async (req, res) => {
         console.log(error)
     }
 });
+
+app.post('/buy/:id', async(req, res) =>{
+    try{
+        const product = await Product.findByPk(req.params.id)
+        const { quantity } = req.body;
+        await Orders.create({
+            product_id: req.params.id,
+            user_id: 1,
+            qty: quantity,
+            price: product.price * quantity,
+            transaction_status: 'WAITING'            
+        }).then(res.redirect('/products/' + req.params.id));
+        console.log(quantity)
+    }catch(error){
+        console.log(error)
+    }
+})
 
 
 

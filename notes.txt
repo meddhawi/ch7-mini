@@ -14,7 +14,7 @@ npx sequelize model:generate --name Orders --attributes product_id:integer,user_
 
 npx sequelize model:generate --name Review --attributes product_id:integer,rating:integer,review:text
 
-Create: place order → dari modal lari ke make order page. 
+Create: place order → dari modal lari ke make order page. ✔
 
 Read: udah ada di product.ejs✔
 
@@ -27,5 +27,5 @@ ato gk bisa dibikin satu form dlm bntk query(admin style)
 Show: title, description, stock, prize
 
 
-To Do: remove database, add foreign key
+To Do: 
 

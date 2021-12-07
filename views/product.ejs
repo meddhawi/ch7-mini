@@ -38,12 +38,15 @@
               <h5 class="modal-title" id="exampleModalLabel"><%= products.title %></h5>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
-              <p>Stocks: <%= products.stock %></p>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <a href="/products/<%= products.id %>" class="btn btn-success">Go to Product page</a>
+            <form action="/buy/<%= products.id %>" method="post">
+              <div class="modal-body">  
+                <label for="quantity" class="form-label">Quantity</label>
+                <input type="number" id="quantity" name="quantity" min="1" max="<%= products.stock %>">
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="submit" class="btn btn-success">Place Order!</button>
+            </form>
             </div>
           </div>
         </div>
