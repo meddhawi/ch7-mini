@@ -12,7 +12,6 @@
         <div class="card-body">
           <div class="display-6 fs-3 fw-bold">
             <p class="fs-5">Stock Available: <%= products.stock %></p>
-            <p class="fs-5">Product Sold: </p>
 
             <button type="button" class="btn btn-success" data-bs-toggle="modal"
               data-bs-target="#moreInfo<%= products.id %>">
@@ -45,9 +44,9 @@
           </div>
           <form action="/buy/<%= products.id %>" method="post">
             <div class="modal-body">
-              <label for="quantity" class="form-label">Quantity</label>
+              <label for="quantity" class="form-label">Quantity:</label>
               <input type="number" id="quantity" name="quantity" min="1" max="<%= products.stock %>">
-              <input type="text" id="order_notes" name="order notes" value="Anda ganteng!">
+              <input type="text" id="order_notes" name="order notes" placeholder="Notes to Seller">
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
