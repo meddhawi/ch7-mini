@@ -1,9 +1,6 @@
 const express = require('express')
 const app = express()
 const port = process.env.port || 8000;
-const Sequelize = require('sequelize')
-
-
 
 // Setting template engine EJS
 app.set('view engine', 'ejs')
@@ -20,7 +17,7 @@ app.use(express.static('public'));
 var path = require ('path');
 app.use(express.static(path.join(__dirname + '../public')));
 
-const { Product, Orders, Review } = require('./models');
+
 const adminController = require('./controller/admin');
 const productController = require('./controller/product');
 

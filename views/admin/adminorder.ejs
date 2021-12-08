@@ -1,6 +1,7 @@
 <%- include('../partial/header'); -%>
 <%- include('../partial/navbar'); -%>
 <div class="container">
+  <div class="text-center">
     <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#showWait">
       <h6>See all Waiting Orders</h6>
     </button>
@@ -13,6 +14,8 @@
       <h6>See all Cancelled Orders</h6>
     </button>
 
+  </div>
+    
     <div class="modal fade" id="showWait" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-scrollable modal-xl">
           <div class="modal-content">

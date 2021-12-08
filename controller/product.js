@@ -22,6 +22,7 @@ module.exports = {
                 .then(products => res.render('product/homepage', {
                     products: products
                 }))
+                
         }catch(error) {
             console.log(error)
         }
