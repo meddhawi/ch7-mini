@@ -1,7 +1,7 @@
 <%- include('../partial/header'); -%>
 <%- include('../partial/navbar'); -%>
 <div class="container">
-    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#showWait">
+    <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#showWait">
       <h6>See all Waiting Orders</h6>
     </button>
 
@@ -9,7 +9,7 @@
       <h6>See all Done Orders</h6>
     </button>
 
-    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#showCancel">
+    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#showCancel">
       <h6>See all Cancelled Orders</h6>
     </button>
 
@@ -17,40 +17,41 @@
         <div class="modal-dialog modal-dialog-scrollable modal-xl">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Status: WAITING</h5>
+              <h5 class="modal-title" id="exampleModalLabel">Status: <span class="btn btn-secondary fw-bold">WAITING</span></h5>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
               <table class="table">
                   <thead>
                   <tr>
-                      <th scope="col">Product ID</th>
+                      <th scope="col">Product Name</th>
                       <th scope="col">User ID</th>
                       <th scope="col">Quantity</th>
                       <th scope="col">Total Cost</th>
                       <th scope="col">Transaction Status</th>
-                      <th scope="col"></th>
-                      <th scope="col"></th>
+                      <th scope="col">Change To</th>
+                      <th scope="col">Change To</th>
                   </tr>
                   </thead>
                   <tbody>
                       <% orderWaiting.forEach(function(orders) { %>
                       <tr>
-                        <td><%= orders.product_id %></td>
+                        <td><%= orders.Product.title %></td>
                         <td><%= orders.user_id %></td>
                         <td><%= orders.qty %></td>
                         <td><%= orders.price %></td>
-                        <td><%= orders.transaction_status %></td>
+                        <td><span class="btn btn-secondary fw-bold"><%= orders.transaction_status %></span></td>
                         <td>
                             <form action="/admin/orders" method="post">
                                 <input type="hidden" name="orderID" value="<%= orders.id %>">
-                                <input type="submit" name="status_done" id="" class="btn btn-success" value="DONE">
+                                <input type="submit" name="status_done" id="" class="btn btn-success fw-bold" value="DONE">
                                 
                             </form>
                         </td>
                         <td>
                           <form action="/admin/orders" method="post">
-                            <input type="submit" name="status_cancel" id="" class="btn btn-danger" value="CANCELLED">
+                            <input type="hidden" name="orderID" value="<%= orders.id %>">
+                            <input type="submit" name="status_cancel" id="" class="btn btn-danger fw-bold" value="CANCELLED">
                           </form>
                         </td>
                       </tr>
@@ -74,14 +75,14 @@
       <div class="modal-dialog modal-dialog-scrollable modal-xl">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Status: DONE</h5>
+            <h5 class="modal-title" id="exampleModalLabel">Status: <span class="btn btn-success fw-bold">DONE</span></h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
             <table class="table">
                 <thead>
                 <tr>
-                    <th scope="col">Product ID</th>
+                    <th scope="col">Product Name</th>
                     <th scope="col">User ID</th>
                     <th scope="col">Quantity</th>
                     <th scope="col">Total Cost</th>
@@ -92,15 +93,17 @@
                 <tbody>
                   <% orderDone.forEach(function(orders) { %>
                     <tr>
-                      <td><%= orders.product_id %></td>
+                      <td><%= orders.Product.title %></td>
                       <td><%= orders.user_id %></td>
                       <td><%= orders.qty %></td>
                       <td><%= orders.price %></td>
-                      <td><%= orders.transaction_status %></td>
+                      <td><span class="btn btn-success fw-bold"><%= orders.transaction_status %></span></td>
                       <td>
                         <form action="/admin/orders" method="post">
-                            <input type="hidden" name="orderID" value="<%= orders.id %>">
-                            <input type="submit" name="historyDelete" id="" class="btn btn-danger" value="DELETE">
+                            <input type="hidden" name="historyDelete" id="" class="btn btn-danger" value="<%= orders.id %>">
+                            <button class="btn btn-danger" type="submit"> 
+                              <i class="bi bi-trash"></i>
+                            </button>
                         </form>
                     </td>
                     </tr>            
@@ -119,14 +122,14 @@
         <div class="modal-dialog modal-dialog-scrollable modal-xl">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Status: CANCELLED</h5>
+              <h5 class="modal-title" id="exampleModalLabel">Status: <span class="btn btn-danger fw-bold">CANCELLED</span></h5>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
               <table class="table">
                   <thead>
                   <tr>
-                      <th scope="col">Product ID</th>
+                      <th scope="col">Product Name</th>
                       <th scope="col">User ID</th>
                       <th scope="col">Quantity</th>
                       <th scope="col">Total Cost</th>
@@ -138,15 +141,17 @@
                   <tbody>
                     <% orderCancelled.forEach(function(orders) { %>
                       <tr>
-                        <td><%= orders.product_id %></td>
+                        <td><%= orders.Product.title %></td>
                         <td><%= orders.user_id %></td>
                         <td><%= orders.qty %></td>
                         <td><%= orders.price %></td>
-                        <td><%= orders.transaction_status %></td>
+                        <td><span class="btn btn-danger fw-bold"><%= orders.transaction_status %></span></td>
                         <td>
                             <form action="/admin/orders" method="post">
-                                <input type="hidden" name="orderID" value="<%= orders.id %>">
-                                <input type="submit" name="historyDelete" id="" class="btn btn-danger" value="DELETE">
+                              <input type="hidden" name="historyDelete" id="" class="btn btn-danger" value="<%= orders.id %>">
+                              <button class="btn btn-danger" type="submit"> 
+                                <i class="bi bi-trash"></i>
+                              </button>
                             </form>
                         </td>
                       </tr>            

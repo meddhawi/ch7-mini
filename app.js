@@ -22,6 +22,7 @@ app.use(express.static(path.join(__dirname + '../public')));
 
 const { Product, Orders, Review } = require('./models');
 const { where } = require('sequelize');
+const { title } = require('process');
 
 //Test model
 app.get('/', async (req, res, next) => {
@@ -37,7 +38,15 @@ app.get('/', async (req, res, next) => {
 
 app.get('/products/:id', async (req, res) => {
     try{
-        const product = await Product.findByPk(req.params.id)
+        const product = await Product.findByPk(req.params.id,
+            {
+                include:{
+                    model: Orders,
+                    where:{
+                        transaction_status: 'DONE'
+                    },
+                }
+            })
         const review = await Review.findAll({
             where: {
                 product_id: req.params.id
@@ -74,21 +83,23 @@ app.post('/buy/:id', async(req, res) =>{
 app.get('/admin/orders', async(req, res) => {
     try{
         const order = await Orders.findAll()
-        const orderDone = await Orders.findAll({
-            where:{
-                transaction_status: 'DONE'
+        const orderDone = await Orders.findAll(
+            {
+                where: {transaction_status: 'DONE'},
+                include: {model: Product}
             }
-        })
-        const orderCancelled = await Orders.findAll({
-            where:{
-                transaction_status: 'CANCELLED'
+        )
+        const orderCancelled = await Orders.findAll(
+            {
+                where: {transaction_status: 'CANCELLED'},
+                include: {model: Product}
+            })
+        const orderWaiting = await Orders.findAll(
+            {
+                where: {transaction_status: 'WAITING'},
+                include: {model: Product}
             }
-        })
-        const orderWaiting = await Orders.findAll({
-            where:{
-                transaction_status: 'WAITING'
-            }
-        })
+        ) 
 
         res.render('admin/adminorder', {
             order, orderDone, orderCancelled, orderWaiting
@@ -124,7 +135,7 @@ app.post('/admin/orders', async(req, res)=>{
         if(historyDelete){
             await Orders.destroy({
                 where:{
-                    id: orderID
+                    id: historyDelete
                 }
             })
         }
@@ -135,6 +146,45 @@ app.post('/admin/orders', async(req, res)=>{
         console.log(error)
     }
 })
+
+app.get('/admin/tests', async(req, res) => {
+    try{
+        const order = await Orders.findAll({
+            where:{
+                product_id: 3
+            }
+        },{
+            include:{
+            model: Product,
+            
+        }})
+        const product = await Product.findByPk(3,
+            {
+                include:{
+                    model: Orders,
+                    where:{
+                        transaction_status: 'DONE'
+                    }
+                    
+                }
+            })
+        const orderWaiting = await Orders.findAll(
+            {
+                where: {transaction_status: 'DONE'},
+                include: {model: Product}
+            }
+        )
+        res.send(JSON.stringify(product, null, 2))
+        // res.render('admin/adminorder', {
+        //     order, orderDone, orderCancelled, orderWaiting
+        // })
+
+    } catch(error) {
+        console.log(error)
+    }
+})
+
+
 
 app.get('/admin/products', async(req, res) => {
     try{
