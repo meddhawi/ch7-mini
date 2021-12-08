@@ -26,6 +26,7 @@ const productController = require('./controller/product');
 
 
 app.get('/', productController.homepage); 
+app.get('/search', productController.search)
 app.get('/products/:id', productController.productShow);
 app.post('/buy/:id', productController.productBuy)
 

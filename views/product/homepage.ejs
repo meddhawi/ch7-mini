@@ -2,6 +2,22 @@
 <%- include('../partial/navbar'); -%>
 
 <div class="container">
+  <div class="input-group">
+    <form action="search">
+      <div class="row">
+        <div class="col-auto p-0">
+          <div class="form-outline">
+            <input type="search" id="form1" name="searchResult" class="form-control" placeholder="Search">
+          </div>
+        </div>
+        <div class="col-auto p-0">
+          <button type="submit" class="btn btn-primary">
+            <i class="bi bi-search"></i>
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
   <div class="row">
     <% products.forEach(function(products) { %>
     <div class="card m-3" style="width: 18rem;">

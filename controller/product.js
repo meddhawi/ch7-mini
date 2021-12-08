@@ -1,5 +1,6 @@
 const express = require('express')
 const Sequelize = require('sequelize')
+const { Op } = require('sequelize')
 const { Product, Orders, Review } = require('../models');
 
 module.exports = {
@@ -10,6 +11,18 @@ module.exports = {
                 products: products
             });
         } catch(error) {
+            console.log(error)
+        }
+    },
+
+    search: async(req, res) => {
+        try{
+            const {searchResult} = req.query;
+            Product.findAll({where: { title: { [Op.iLike]: '%' + searchResult + '%'} }})
+                .then(products => res.render('product/homepage', {
+                    products: products
+                }))
+        }catch(error) {
             console.log(error)
         }
     },
