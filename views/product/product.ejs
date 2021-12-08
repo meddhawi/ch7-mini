@@ -2,89 +2,94 @@
 <%- include('../partial/navbar'); -%>
 
 <div class="container mt-5">
-    <div class="row">
-      <div class="col-sm-4">
-        <img class="img-thumbnail" src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8cHJvZHVjdHxlbnwwfHwwfHw%3D&w=1000&q=80" alt="Card image">
-        
-        <div class="card mt-1 mt-2">
+  <div class="row">
+    <div class="col-sm-4">
+      <img class="img-thumbnail"
+        src="http://www.acacia-wood.com/themes/jtherczeg-multi//assets/images/acacia/empty-img.png"
+        alt="Card image">
+
+      <div class="card mt-1 mt-2">
+        <div class="card-body">
+          <div class="display-6 fs-3 fw-bold">
+            <p class="fs-5">Stock Available: <%= products.stock %></p>
+            <p class="fs-5">Product Sold: </p>
+
+            <button type="button" class="btn btn-success" data-bs-toggle="modal"
+              data-bs-target="#moreInfo<%= products.id %>">
+              <h2><i class="bi bi-cart-plus"></i></h2>
+            </button>
+            <span>Buy Now!</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="col-sm-6">
+      <div class="card">
+        <div class="card-body fs-5">
+          <h4 class="card-title"><%= products.title %></h4>
+          <p class="card-text"><%= products.price %></p>
+          <p class="list-group-item">
+            <%= products.description %>
+          </p>
+        </div>
+      </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="moreInfo<%= products.id %>" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel"><%= products.title %></h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <form action="/buy/<%= products.id %>" method="post">
+            <div class="modal-body">
+              <label for="quantity" class="form-label">Quantity</label>
+              <input type="number" id="quantity" name="quantity" min="1" max="<%= products.stock %>">
+              <input type="text" id="order_notes" name="order notes" value="Anda ganteng!">
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+              <button type="submit" class="btn btn-success">Place Order!</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row border mt-5">
+  <div class="display-6 fs-3 fw-bold">
+    <span class="display-6 text">Rating:</span>
+  </div>
+  <% reviews.forEach(function(review) { %>
+  <div class="row m-2">
+    <div class="card mb-3" style="max-width: 540px">
+      <div class="row g-0">
+        <div class="col-md-4">
+          <img
+            src="data:image/png;base64,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"
+            class="img-fluid rounded-circle" alt="...">
+        </div>
+        <div class="col-md-8">
           <div class="card-body">
-            <div class="display-6 fs-3 fw-bold">
-              <p class="fs-5">Stock Available: <%= products.stock %></p>
-              <p class="fs-5">Product Sold: </p>
+            <h5 class="card-title">ACC #<%= review.id %></h5>
+            <p class="card-text">
+              <% for (var i =1; i <= review.rating;  i++ ) { %>
+              <i class="bi bi-star text-warning"></i>
+              <% } %>
 
-              <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#moreInfo<%= products.id %>">
-                <h2><i class="bi bi-cart-plus"></i></h2>
-              </button>
-              <span>Buy Now!</span>
-            </div>
-          </div>
-        </div>
-
-      </div>
-      <div class="col-sm-6">
-        <div class="card">
-          <div class="card-body fs-5">
-            <h4 class="card-title"><%= products.title %></h4>
-            <p class="card-text"><%= products.price %></p>            
-            <p class="list-group-item">
-                <%= products.description %>
             </p>
-          </div>
-        </div>
-      </div>
-      <!-- Modal -->
-      <div class="modal fade" id="moreInfo<%= products.id %>" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel"><%= products.title %></h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <form action="/buy/<%= products.id %>" method="post">
-              <div class="modal-body">  
-                <label for="quantity" class="form-label">Quantity</label>
-                <input type="number" id="quantity" name="quantity" min="1" max="<%= products.stock %>">
-                <input type="text" id="order_notes" name="order notes" value="Anda ganteng!">
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button type="submit" class="btn btn-success">Place Order!</button>
-            </form>
-            </div>
+            <p class="card-text"><%= review.review %></p>
+
           </div>
         </div>
       </div>
     </div>
-
-    <div class="row border mt-5">
-        <div class="display-6 fs-3 fw-bold">
-           <span class="display-6 text">Rating:</span>
-        </div>
-        <% reviews.forEach(function(review) { %>
-            <div class="row m-2">
-                <div class="card mb-3" style="max-width: 540px">
-                  <div class="row g-0">
-                    <div class="col-md-4">
-                      <img src="data:image/png;base64,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" class="img-fluid rounded-circle" alt="...">
-                    </div>
-                    <div class="col-md-8">
-                      <div class="card-body">
-                        <h5 class="card-title">ACC #<%= review.id %></h5>
-                        <p class="card-text">
-                            <% for (var i =1; i <= review.rating;  i++ ) { %>
-                                <i class="bi bi-star text-warning"></i> 
-                            <% } %>
-                            
-                        </p>
-                        <p class="card-text"><%= review.review %></p>
-                        
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-        <% }); %>
-      </div>
   </div>
+  <% }); %>
+</div>
+</div>
 
 <%- include('../partial/footer'); -%>
